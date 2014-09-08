@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Übercoooooolio</title>
+	<meta charset="UTF-8">
+	<link href='http://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="prism.css" rel="stylesheet" />
+</head>
+<body>
+	
+<div class="wrap">
+	<div id="wrapper">
+			
+			<header>
+			    <div class="mh-top-menu">
+			    	<div class="menu-mh-header-nav-container"><ul id="menu-mh-header-nav" class="menu"><li class="menu-item"><a href="index.html">Blogbelogboggen</a></li>
+</ul></div>			    </div>
+			    <h3 class="mh-top-quote">'The enemy of art is the <br> absence of limitations.'</h3>
+			</header>
+	
+	<section>
+		
+		<div class="mh-post">
+		    <h3 class="mh-entry-title"><a href="single.html">Lav din egen widget til din kunde</a></h3>
+		    <span class="mh-entry-author"><a href="#" title="Posts by michael" rel="author">Michael</a></span>
+		    <span class="mh-entry-date">2014/09/02</span>
+		    <div class="mh-entry-content">
+		    	<p>Find din functions.php i temaet, du arbejder med. I det her tilfælde ubercoool-2014-widget. Og ca. på linje 14 indsætter du:
+		    	</p>
+		    	
+		    	<pre><code class="language-php">
+function ubercoool_widgets_init() {
+	register_sidebar( array(
+		'name'          => __( 'Top Widget', 'ubercoool' ),
+		'id'            => 'top-widget',
+		'description'   => __( 'Top Widget vil kunne ses lige over dine posts', 'ubercoool' ),
+		'before_widget' => '&lt;aside id="top-widget" class="top-widget-wrapper"&gt;',
+		'after_widget'  => '&lt;/aside&gt;',
+		'before_title'  => '&lt;h1 class="top-widget-title"&gt;',
+		'after_title'   => '&lt;/h1&gt;',
+	) );
+}
+add_action( 'widgets_init', 'ubercoool_widgets_init' );
+			    </code></pre>
+			    
+		    	<p>I den nye fil i det her tema, sidebar.php, indsætter du den her stump, der forholder sig til, om brugeren har oprettet noget i din top-widget - og hvis ja, så afvikles det:</p>
+			    
+			    <pre><code class="language-php">
+if ( ! is_active_sidebar( 'top-widget' ) ) {
+	return;
+}
+?&gt;
+
+	&lt;div class="top-widget-wrapper widget-area clear" role="complementary"&gt;
+		&lt;?php dynamic_sidebar( 'top-widget' ); ?&gt;
+	&lt;/div&gt;
+			    </code></pre>
+			    
+			    <p>Prøv at gå til dit dashboard i wordpress. Klik på Appearance > Widgets. Her kan du se, at du har en lang række mulige widgets, og til højre har du så den widget, vi arbejder på nu. Prøv at klik-og-trække 'Calendar' over i din 'Top Widget' og giv slip. Klik derefter på 'Save' eller 'Gem'.</p>
+			    
+			    <p>Men prøv at se front-end delen og reload dit site. Der er ingen top-widget endnu. Vi skal lige fortælle Wordpress, hvor den skal sættes ind. Vi kan placere den, hvor vi har lyst, men i det her tilfælde vil placere den i headeren lige over vores posts:</p>
+			    
+			    <pre><code class="language-php">
+&lt;?php get_sidebar('top-widget'); ?&gt;
+				</code></pre>
+				
+				<p>Fino. Det virker. Men det ser ikke kønt ud. Åben din style.css i temaet, og indsæt koden her på ca. linje 192:</p>
+				
+				
+				<pre><code class="language-css">
+#top-widget {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid rgba(190,199,199,0.7);
+    border-radius: 2px 2px 2px 2px;
+    margin: 1em 0 3em;
+    padding: 15px;
+    position: relative;
+    -moz-box-shadow:    inset 1px 1px 1px rgba(20,40,60,0.3);
+    -webkit-box-shadow: inset 1px 1px 1px rgba(20,40,60,0.3);
+    box-shadow:         inset 1px 1px 1px rgba(20,40,60,0.3);
+}
+#top-widget:after {
+    border-color: white transparent;
+    border-style: solid;
+    border-width: 10px 10px 0;
+    bottom: -10px;
+    content: "";
+    display: block;
+    right: 40px;
+    position: absolute;
+    width: 0;
+    -moz-box-shadow:    inset 0 0 2px #000000;
+    -webkit-box-shadow: inset 0 0 2px #000000;
+    box-shadow:         inset 0 0 2px #000000;
+}
+#top-widget:before {
+    border-color: rgba(190,199,199,0.7) transparent;
+    border-style: solid;
+    border-width: 11px 11px 0;
+    bottom: -11px;
+    content: "";
+    display: block;
+    right: 39px;
+    position: absolute;
+    width: 0;
+}
+#top-widget h1 {
+	font-style: oblique;
+	font-size: 22px;
+}
+</code></pre>
+				
+								<p>Det var dét. Gå tilbage til dit Wordpress dashboard og klik på 'Calendar' i din 'Top Widget'. Klik på delete. Træk nu i stedet 'Recent posts' over i din 'Top Widget' og klik på 'Save' eller 'Gem'. På at reloade din front-end del af dit Wordpress site, og nu kan du, hvor nemt det bil blive for din kunde at indsætte widgets efter eget valg, der hvor du har gjort det muligt i din kode.</p>
+
+		    </div><!-- ends mh-entry-content -->
+		</div><!-- ends mh-post -->
+		
+		
+		
+		<!-- ends tutorial-delen :-) -->
+		
+		
+		
+		
+		<div class="mh-post">
+		    <h3 class="mh-entry-title"><a href="single.html">Nyt site der forestiller responsive web</a></h3>
+		    <span class="mh-entry-author"><a href="#" title="Posts by michael" rel="author">Michael</a></span>
+		    <span class="mh-entry-date">2012/08/26</span>
+		    <div class="mh-entry-content">
+		    	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo [...]</p>
+		    </div><!-- ends mh-entry-content -->
+		</div><!-- ends mh-post -->
+		
+		<div class="mh-post">
+		    <h3 class="mh-entry-title"><a href="single.html">Nyt site der forestiller responsive web</a></h3>
+		    <span class="mh-entry-author"><a href="#" title="Posts by michael" rel="author">Michael</a></span>
+		    <span class="mh-entry-date">2012/08/26</span>
+		    <div class="mh-entry-content">
+		    	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo [...]</p>
+		    </div><!-- ends mh-entry-content -->
+		</div><!-- ends mh-post -->
+		
+		<div class="mh-post">
+		    <h3 class="mh-entry-title"><a href="single.html">Nyt site der forestiller responsive web</a></h3>
+		    <span class="mh-entry-author"><a href="#" title="Posts by michael" rel="author">Michael</a></span>
+		    <span class="mh-entry-date">2012/08/26</span>
+		    <div class="mh-entry-content">
+		    	<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo [...]</p>
+		    </div><!-- ends mh-entry-content -->
+		</div><!-- ends mh-post -->
+		
+	</section>
+
+
+	</div><!-- ends wrapper -->
+	<div class="push"></div><!-- keeps footer at bottom -->
+</div><!-- ends wrap -->
+	
+	<script src="prism.js"></script>
+
+	<div class="footer">
+		<div id="footer-wrap">
+			<span class="mh-footer-copyright">Übercool wp-tema &copy; Michael Hanson 2012</span>
+		</div><!-- ends footer-wrap -->
+	</div><!-- ends footer -->
+
+</body>
+</html>
